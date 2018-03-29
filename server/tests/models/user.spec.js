@@ -24,22 +24,16 @@ describe('Tests for the user DB model', () => {
         });
     });
 
-    it('Checking saved name', function () {
-
-        return new Promise((resolve, reject) => {
-            let testName = 'PungDao';
-            let user = new User({
-                name: testName,
-                password: 'pass'
-            });
-
-            user.save(function (err, user) {
-                expect(err).not.to.exist;
-                expect(user).to.exist;
-
-                expect(user.name).to.be.equal(testName);
-                resolve();
-            });
-        });
+    it('Saves user', async () => {
+        const name = 'PungDao'
+        const user = await user.save(
+           new User({
+            name,
+            password: 'pass'
+           })
+        )
+        const saved = await User.find()
+        saved.length === 1
+        saved.name === name
     });
 });
